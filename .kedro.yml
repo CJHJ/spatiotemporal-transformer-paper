@@ -1,0 +1,6 @@
+context_path: spatiotemporal_transformer.run.ProjectContext
+project_name: "spatiotemporal-transformer"
+project_version: "0.16.6"
+package_name: "spatiotemporal_transformer"
+hooks:
+  - spatiotemporal_transformer.hooks.project_hooks

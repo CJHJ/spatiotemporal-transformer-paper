@@ -1,0 +1,25 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://kedro.readthedocs.io/en/stable/05_data/01_data_catalog.html
+
+raw_cmap:
+  type: spatiotemporal_transformer.extras.datasets.netcdf_dataset.NetCDFDataSet
+  filepath: data/01_raw/cmap_pentad_enhanced.nc
+  layer: raw
+  attr_name: "precip"
+
+preprocessed_cmap:
+  type: pickle.PickleDataSet
+  filepath: data/02_intermediate/preprocessed_cmap.pkl
+  layer: preprocessing
+
+raw_moving_mnist:
+  type: pickle.PickleDataSet
+  filepath: data/01_raw/mnist_test_seq.pkl
+  layer: raw
+
+scaler:
+  type: pickle.PickleDataSet
+  filepath: data/04_feature/scaler.pkl
+  layer: preprocessing

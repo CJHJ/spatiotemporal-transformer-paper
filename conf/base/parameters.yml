@@ -1,0 +1,94 @@
+# Change flatten to False when SpatiotemporalTrans and ConvLSTM
+# Change model parameters in pipeline
+# Change sequence_length, input_length and target_length
+data_parameters:
+  sequence_length: 20
+
+dataset_parameters:
+  flatten: False # Flatten for LSTM, VanillaLSTMSeq2Seq, VanillaLSTMSeq2SeqAttn and Transformer, no flattening for SpatiotemporalTransformer, ConvLSTM
+
+split_parameters:
+  train_valid_size: 0.8
+  train_size: 0.8
+
+scaler_parameters:
+  scaler_type: "MinMaxScaler" # RobustScaler, StandardScaler, MinMaxScaler
+  min_max_vals: [0, 170] # CMAP [0, 170], MovingMNIST [0, 255]
+
+train_data_parameters:
+  batch_size: 12
+  shuffle: True
+  num_workers: 4
+
+valid_data_parameters:
+  batch_size: 16
+  shuffle: False
+  num_workers: 4
+
+test_data_parameters:
+  batch_size: 16
+  shuffle: False
+  num_workers: 4
+
+model_type: "SpatiotemporalTransformerSeq2Seq" # SpatiotemporalTransformerSeq2Seq, VanillaLSTM, VanillaLSTMSeq2Seq, VanillaLSTMSeq2SeqAttn, Transformer, ConvLSTM
+
+transformer_model_params:
+  d_model: 2048
+  num_heads: 8
+  N: 6
+  use_cuda: True
+  embed_mode: "Embedding" # Embedding or Sin
+  dropout: 0.2
+
+spatiotemporal_transformer_seq2seq_params:
+  patch_size: 8
+  d_model: 72
+  num_heads: 9
+  num_layers: 6
+  use_cuda: True
+  dropout: 0.2
+
+lstm_model_params:
+  linear_output_size: 1024
+  lstm_hidden_size: 1024
+  lstm_num_layers: 2
+  hidden_seq_len: 10
+  one_step_ahead: False
+  use_cuda: True
+  dropout: 0.2
+
+# For VanillaLSTMSeq2SeqAttn too
+lstm_seq2seq_model_params:
+  linear_output_size: 1024
+  lstm_hidden_size: 1024
+  lstm_num_layers: 6
+  one_step_ahead: True
+  use_cuda: True
+  dropout: 0.2
+  sigmoid_output: False
+
+convlstm_model_params:
+  input_channels: 1
+  hidden_channels: [8, 8, 8, 8, 8, 8]
+  kernel_size: 3
+  pred_input_dim: 10
+  one_step_ahead: True
+  use_cuda: True
+  dropout: 0.2
+  sigmoid_output: False
+
+optim_params:
+  lr: 0.0001
+  betas: [0.9, 0.999]
+  eps: 1e-9
+  quantiles: []
+  warmup: False
+  T_max_epoch: 100
+  lr_min: 0.0001
+
+train_params:
+  epochs: 2000
+  input_len: 10
+  target_len: 10
+  test_every: 1
+  save_every: 10
